@@ -1,7 +1,0 @@
-Host spesa
-	User spesa
-  HostName spesa.com.br
-
-Host simplesideias
-	User fnando
-  HostName simplesideias.com.br
