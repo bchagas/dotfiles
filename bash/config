@@ -35,9 +35,12 @@ export LIGHT_RED="\[\033[1;31m\]"
 export RED="\[\033[0;31m\]"
 export WHITE="\[\033[1;37m\]"
 export YELLOW="\[\033[0;33m\]"
+export NICE_BLUE="\[\033[0;36m\]"
 
 export HTTPD=/opt/local/apache2/bin/apachectl
 export APXS2=/opt/local/apache2/bin/apxs
+
+source /usr/bin/funcoeszz
 
 shopt -s cdspell
 shopt -s nocaseglob

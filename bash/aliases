@@ -33,6 +33,7 @@ alias rst='touch tmp/restart.txt'
 alias r="rails"
 
 #misc
+alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias redis="redis-server"
 alias growl="growlnotify"
 alias psgrep="ps aux | egrep -v egrep | egrep"

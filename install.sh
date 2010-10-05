@@ -11,8 +11,6 @@ ln -s $here/inputrc $HOME/.inputrc
 ln -s $here/gemrc $HOME/.gemrc
 ln -s $here/npmrc $HOME/.npmrc
 ln -s $here/rvmrc $HOME/.rvmrc
-ln -s $here/vim $HOME/.vim
-echo "source $HOME/.vim/vimrc" > $HOME/.vimrc
 
 mkdir $HOME/.bin
 ln -s $here/grabbit $HOME/.bin
