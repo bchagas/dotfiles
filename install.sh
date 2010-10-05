@@ -1,33 +1,32 @@
-cp files/autotest ~/.autotest
-cp files/bash_completion.sh ~/.bash_completion.sh
-cp files/bash_profile ~/.bash_profile
-cp files/caprc ~/.caprc
-cp files/finder-path.applescript ~/.finder-path.applescript
-cp files/gem_completion.sh ~/.gem_completion.sh
-cp files/git_completion.sh ~/.git_completion.sh
-cp files/gitconfig ~/.gitconfig
-cp files/irbrc ~/.irbrc
-cp files/inputrc ~/.inputrc
-cp files/gemrc ~/.gemrc
-cp files/npmrc ~/.npmrc
-cp files/rvmrc ~/.rvmrc
-cp files/gitignore ~/.gitignore
+here=`pwd`
+ln -s $here/bash $HOME/.bash
+ln -s $here/bash_profile $HOME/.bash_profile
+ln -s $here/autotest $HOME/.autotest
+ln -s $here/caprc $HOME/.caprc
+ln -s $here/finder-path.applescript $HOME/.finder-path.applescript
+ln -s $here/gitconfig $HOME/.gitconfig
+ln -s $here/gitignore $HOME/.gitignore
+ln -s $here/irbrc $HOME/.irbrc
+ln -s $here/inputrc $HOME/.inputrc
+ln -s $here/gemrc $HOME/.gemrc
+ln -s $here/npmrc $HOME/.npmrc
+ln -s $here/rvmrc $HOME/.rvmrc
+ln -s $here/vim $HOME/.vim
+echo "source $HOME/.vim/vimrc" > $HOME/.vimrc
 
-mkdir ~/.bin
-cp files/grabbit ~/.bin
-chmod +x ~/.bin/grabbit
+mkdir $HOME/.bin
+ln -s $here/grabbit $HOME/.bin
+chmod +x $HOME/.bin/grabbit
 
-curl http://github.com/paulhammond/webkit2png/raw/master/webkit2png > ~/.bin/webkit2png
-chmod +x ~/.bin/webkit2png
+curl http://github.com/paulhammond/webkit2png/raw/master/webkit2png > $HOME/.bin/webkit2png
+chmod +x $HOME/.bin/webkit2png
 
-mkdir -p ~/.ssh
-cp files/sshconfig ~/.ssh/config
+mkdir -p $HOME/.ssh
+ln -s $here/sshconfig $HOME/.ssh/config
 
-sudo mkdir -p /etc/bash_completion
-
-source ~/.bash_profile
+source $HOME/.bash_profile
 
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
 defaults write -g PMPrintingExpandedStateForPrint -bool TRUE
 
-open files/IR_Black.terminal
+open $here/IR_Black.terminal
