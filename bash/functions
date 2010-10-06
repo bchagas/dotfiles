@@ -149,5 +149,20 @@ git-scoreboard () { git log | grep '^Author' | sort | uniq -ci | sort -r; }
 manp () { man -t $* | ps2pdf - - | open -f -a Preview; }
 
 
+if [ "$1" != "" ]; then
+	mkdir $1
+    	dir=$(pwd)
+	if [[ -s "$SKEL_PATH" ]] && echo "error SKEL_PATH" && exit 
+    	cp -Rf $SKEL_PATH/sinatra/* $dir 
+    	cd $dir
+    	rm -Rf $dir/.git
+    	vim $dir
+ else
+ 	echo "Error: Digite um nome (ex. sinatra minhapp)"
+	echo "Verifique se a Variavel SKEL_PATH esta definida"
+fi
+
+
+
 # Activate RVM
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm

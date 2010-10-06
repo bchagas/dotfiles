@@ -2,7 +2,7 @@
 alias ..='cd ..'
 
 # ls
-alias ls="ls -G"
+#alias ls="ls -G"
 alias l="ls -lAh"
 alias la='ls -A'
 alias ll="ls -Glahs"
