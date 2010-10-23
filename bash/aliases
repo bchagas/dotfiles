@@ -19,7 +19,7 @@ alias gco='git checkout'
 alias gb='git branch'
 alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-
+alias gitbox="/Applications/Gitbox.app/Contents/MacOS/Gitbox"
 
 # rails
 alias sc='rails console'
@@ -42,3 +42,4 @@ alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resourc
 alias top="top -o cpu"
 alias make="make -j 2"
 alias cleanup="sudo rm -rf /private/var/log/asl/*"
+alias c="cd $HOME/code"
