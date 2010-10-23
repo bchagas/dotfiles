@@ -18,7 +18,6 @@ reload() { source ~/.bash_profile; }
 # and open it when a new tab is created.
 cd() {
   builtin cd "${@:-$HOME}" && ls && pwd > $CDHISTORY;
-
   if [ -f .rvmrc ]; then
     __rvm_project_rvmrc
   fi
@@ -32,6 +31,8 @@ if [ -f $CDHISTORY ]; then
   fi
 fi
 
+#__rvm_project_rvmrc(){
+#}
 
 # retrieve all rake tasks
 _rakecomplete() {
@@ -130,7 +131,7 @@ github() {
     builtin cd $2 && ls;
   else
     echo "Usage:";
-    echo "  github <repo>    ~> will clone $USER's <repo>";
+    echo "  github <repo>        ~> will clone $USER's <repo>";
     echo "  github <user> <repo> ~> will clone <user>'s <repo>";
   fi
 }
@@ -143,24 +144,27 @@ git-track () {
   git config branch.$BRANCH.merge refs/heads/$BRANCH
   echo "tracking origin/$BRANCH"
 }
-github-url () { git config remote.origin.url | sed -En 's/git(@|:\/\/)github.com(:|\/)(.+)\/(.+).git/https:\/\/github.com\/\3\/\4/p'; }
+
+github-url () { 
+  git config remote.origin.url | sed -En 's/git(@|:\/\/)github.com(:|\/)(.+)\/(.+).git/https:\/\/github.com\/\3\/\4/p'; 
+}
 github-go () { open $(github-url); }
 git-scoreboard () { git log | grep '^Author' | sort | uniq -ci | sort -r; }
 manp () { man -t $* | ps2pdf - - | open -f -a Preview; }
 
-
-if [ "$1" != "" ]; then
-	mkdir $1
-    	dir=$(pwd)
-	if [[ -s "$SKEL_PATH" ]] && echo "error SKEL_PATH" && exit 
-    	cp -Rf $SKEL_PATH/sinatra/* $dir 
-    	cd $dir
-    	rm -Rf $dir/.git
-    	vim $dir
- else
- 	echo "Error: Digite um nome (ex. sinatra minhapp)"
-	echo "Verifique se a Variavel SKEL_PATH esta definida"
-fi
+sinatra(){
+  if [ "$1" != "" ]; then
+    mkdir $1
+    dir=$(pwd)
+    cp -Rf $SKEL_PATH/sinatra/* $dir 
+    cd $dir
+    rm -Rf $dir/.git
+    vim $dir
+  else
+    echo "Error: Digite um nome (ex. sinatra minhapp)"
+    echo "Verifique se a Variavel SKEL_PATH esta definida"
+  fi
+}
 
 
 
