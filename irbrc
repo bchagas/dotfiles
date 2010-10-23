@@ -1,3 +1,5 @@
+require 'rubygems'
+
 unless defined?(RUBY_ENGINE) && RUBY_ENGINE == "macruby"
   begin
     gems = %w(rubygems irb/completion ap)
