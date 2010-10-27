@@ -15,6 +15,7 @@ set number
 nmap <S-z> :bprevious<CR>
 nmap <S-x> :bnext<CR>
 
+nmap <S-d> :bdelete<CR>
 "Written by Emerson Vinicius for Convert two Space for Tab
 function! ConvertSpaceToTab()
 	silent exe ":%s/  /\t/g"
