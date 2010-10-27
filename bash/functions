@@ -3,14 +3,6 @@ title() {
   echo -ne "\033]0;$@\007";
 }
 
-
-# Usage: f /some/path [grep options]
-f() {
-  local path="$1"
-  shift
-  find "$path" -follow -name '*' | xargs grep "$*"
-}
-
 # reload source
 reload() { source ~/.bash_profile; }
 
@@ -21,6 +13,7 @@ cd() {
   if [ -f .rvmrc ]; then
     __rvm_project_rvmrc
   fi
+	reload
 }
 
 if [ -f $CDHISTORY ]; then
@@ -30,9 +23,6 @@ if [ -f $CDHISTORY ]; then
     builtin cd "$dir" && clear
   fi
 fi
-
-#__rvm_project_rvmrc(){
-#}
 
 # retrieve all rake tasks
 _rakecomplete() {
@@ -45,9 +35,7 @@ _rakecomplete() {
 
 complete -o default -F _rakecomplete rake
 
-
-
-custom_prompt () {
+custom_title () {
   local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
 
   if [[ "$BRANCH" = "" ]]; then
@@ -56,11 +44,9 @@ custom_prompt () {
 
   local RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
   local GEMSET_NAME=`rvm gemset name`
-  local RAILS_VERSION=`rails -v 2> /dev/null | sed 's/Rails //'`
-  local RAILS_PROMPT=""
   local RUBY_PROMPT=""
   local STATUS=`git status 2>/dev/null`
-  local PROMPT_COLOR=$GREEN
+  local PROMPT_STATUS=""
   local STATE=" "
   local NOTHING_TO_COMMIT="# Initial commit"
   local BEHIND="# Your branch is behind"
@@ -71,50 +57,51 @@ custom_prompt () {
   local TO_BE_COMMITED="# Changes to be committed"
   local LOG=`git log -1 2> /dev/null`
 
-  if [[ "$RAILS_VERSION" != "" ]]; then
-    RAILS_PROMPT="${RAILS_VERSION}@"
-  fi
-
   if [[ "$GEMSET_NAME" != "" ]]; then
-    RUBY_PROMPT="${GRAY}[${RAILS_PROMPT}${GEMSET_NAME}#${RUBY_VERSION}]${NO_COLOR} "
+    RUBY_PROMPT="#${GEMSET_NAME}-${RUBY_VERSION}"
   else
-    RUBY_PROMPT="${GRAY}[${RAILS_PROMPT}${RUBY_VERSION}]${NO_COLOR} "
+    RUBY_PROMPT="#${RUBY_VERSION}"
   fi
 
   if [ "$STATUS" != "" ]; then
     if [[ "$STATUS" =~ "$NOTHING_TO_COMMIT" ]]; then
-      PROMPT_COLOR=$RED
+      PROMPT_STATUS=" !"
       STATE=""
     elif [[ "$STATUS" =~ "$DIVERGED" ]]; then
-      PROMPT_COLOR=$RED
-      STATE="${STATE}${RED}↕${NO_COLOR}"
+      PROMPT_STATUS=" !"
+      STATE="${STATE} ↕"
     elif [[ "$STATUS" =~ "$BEHIND" ]]; then
-      PROMPT_COLOR=$RED
-      STATE="${STATE}${RED}↓${NO_COLOR}"
+      PROMPT_STATUS=" !"
+      STATE="${STATE} ↓"
     elif [[ "$STATUS" =~ "$AHEAD" ]]; then
-      PROMPT_COLOR=$RED
-      STATE="${STATE}${RED}↑${NO_COLOR}"
+      PROMPT_STATUS=" !"
+      STATE="${STATE} ↑"
     elif [[ "$STATUS" =~ "$CHANGED" ]]; then
-      PROMPT_COLOR=$RED
+      PROMPT_STATUS=" !"
       STATE=""
     elif [[ "$STATUS" =~ "$TO_BE_COMMITED" ]]; then
-      PROMPT_COLOR=$RED
+      PROMPT_STATUS=" !"
       STATE=""
     else
-      PROMPT_COLOR=$GREEN
+      PROMPT_STATUS=""
       STATE=""
     fi
 
     if [[ "$STATUS" =~ "$UNTRACKED" ]]; then
-      STATE="${STATE}${YELLOW}*${NO_COLOR}"
+      STATE="${STATE} *"
     fi
 
-    PS1="\n${RUBY_PROMPT}${YELLOW}\w\a${NO_COLOR} (${PROMPT_COLOR}${BRANCH}${NO_COLOR}${STATE}${NO_COLOR})${NICE_BLUE}\n\$ "
+    title "${RUBY_PROMPT} (${BRANCH}${PROMPT_STATUS}${STATE})"
   else
-    PS1="\n${RUBY_PROMPT}${YELLOW}\w\a${NO_COLOR}${NICE_BLUE}\n\$ "
+    title "${RUBY_PROMPT}"
   fi
 }
 
+custom_prompt(){
+ PS1="${YELLOW}\W ${RED}→ ${NO_COLOR}"
+}
+
+custom_title
 PROMPT_COMMAND=custom_prompt
 
 
