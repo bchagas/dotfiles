@@ -5,4 +5,5 @@ log/*
 db/schema.rb
 pkg
 tmp
-coverage*.sw?
+coverage
+*.sw?
