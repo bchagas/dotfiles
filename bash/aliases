@@ -2,22 +2,13 @@
 alias ..='cd ..'
 
 # ls
-#alias ls="ls -G"
 alias l="ls -lAh"
 alias la='ls -A'
 alias ll="ls -Glahs"
 
-
 # git
 alias git="git-achievements"
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff'
-alias gc='git commit'
-alias gca='git commit -a'
-alias gco='git checkout'
-alias gb='git branch'
-alias gs='git status'
+alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias gitbox="/Applications/Gitbox.app/Contents/MacOS/Gitbox"
 

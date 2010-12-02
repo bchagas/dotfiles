@@ -1,4 +1,4 @@
-export PATH="/usr/local/bin:/usr/local/sbin:/opt/local/bin:$HOME/.bin:$PATH"
+export PATH="/usr/local/bin:$HOME/.bin:$PATH"
 
 export PATH="/opt/local/mongo/bin:/usr/local/mysql/bin:/usr/local/pgsql/bin:$PATH"
 

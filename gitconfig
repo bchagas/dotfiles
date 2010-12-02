@@ -1,5 +1,5 @@
 [user]
-	name =  Emerson Vinicius
+	name = Emerson Vinicius
 	email = talk@evinicius.com
 [color]
 	diff = auto
@@ -11,11 +11,11 @@
 	ci = commit
 	co = checkout
 	b = branch
-	st = status
+	st = status -s
 	who = shortlog -s --
 	fl = log -p
 [core]
-	editor = mate -wl1
+	editor = mvim -g
 	autocrlf = input
 	excludefile = /Users/emersonvinicius/.gitignore
 [help]
@@ -23,7 +23,9 @@
 [apply]
 	whitespace = nowarn
 [format]
-	pretty = %C(yellow)%h%Creset %s %C(red)(%cr)%Creset
+	pretty = %C(yellow)%h%Creset %s %C(red)(%an)%Creset
 [github]
 	user = emersonvinicius
 	token = a8b90d8e892afb301a0595358cf02e73
+[achievement]
+	upload = true
