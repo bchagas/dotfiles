@@ -13,7 +13,7 @@ export GREP_OPTIONS="--color=auto"
 export GREP_COLOR="4;33"
 
 #cd
-export CDPATH=.:~:~/code
+export CDPATH=.:~/code
 export CDHISTORY="/tmp/cd-${USER}"
 
 export LESS_TERMCAP_mb=$'\E[04;33m'
