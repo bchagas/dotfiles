@@ -1,32 +1,14 @@
-# cd
 alias ..='cd ..'
 
-# ls
 alias l="ls -lAh"
-alias la='ls -A'
-alias ll="ls -Glahs"
 
 # git
 alias git="git-achievements"
 alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias gitbox="/Applications/Gitbox.app/Contents/MacOS/Gitbox"
-
-# rails
-alias sc='rails console'
-alias ss='rails server'
-alias sg='rails generate'
-alias a='autotest -rails'
-alias tlog='tail -f log/development.log'
-alias scaffold='rails generate nifty_scaffold'
-alias migrate='rake db:migrate db:test:clone'
-alias rst='touch tmp/restart.txt'
-alias r="rails"
 
 #misc
 alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias redis="redis-server"
-alias growl="growlnotify"
 alias psgrep="ps aux | egrep -v egrep | egrep"
 alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"
 alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend"

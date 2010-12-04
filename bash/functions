@@ -6,17 +6,6 @@ reload() {
 	source ~/.bash_profile; 
 }
 
-f(){
-	find . -type f | xargs fgrep $1
-}
-
-if [ -f $CDHISTORY ]; then
-  dir=$(cat $CDHISTORY)
-
-  if [ -d "$dir" ]; then
-    builtin cd "$dir" && clear
-  fi
-fi
 
 _rakecomplete() {
   COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
@@ -96,27 +85,8 @@ custom_title () {
 PROMPT_COMMAND=custom_title
 
 cd() {
-  builtin cd "${@:-$HOME}" && ls && pwd > $CDHISTORY;
   if [ -f .rvmrc ]; then
     __rvm_project_rvmrc
-  fi
-}
-
-manp () { 
-	man -t $* | ps2pdf - - | open -f -a Preview; 
-}
-
-sinatra(){
-  if [ "$1" != "" ]; then
-    mkdir $1
-    cd $1
-		dir=$(pwd)
-    cp -Rf $SKEL_PATH/sinatra/* $dir 
-    rm -Rf $dir/.git
-    vim $dir
-  else
-    echo "Error: Digite um nome (ex. sinatra minhapp)"
-    echo "Verifique se a Variavel SKEL_PATH esta definida"
   fi
 }
 
