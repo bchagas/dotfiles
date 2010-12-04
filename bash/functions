@@ -85,9 +85,11 @@ custom_title () {
 PROMPT_COMMAND=custom_title
 
 cd() {
+  builtin cd "${@:-$HOME}";
   if [ -f .rvmrc ]; then
     __rvm_project_rvmrc
   fi
+  ls
 }
 
 # Activate RVM
