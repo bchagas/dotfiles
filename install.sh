@@ -1,6 +1,7 @@
 here=`pwd`
 ln -s $here/autotest $HOME/.autotest
 ln -s $here/bash_profile $HOME/.bash_profile
+ln -s $here/inputrc $HOME/.inputrc
 ln -s $here/gemrc $HOME/.gemrc
 ln -s $here/gitconfig $HOME/.gitconfig
 ln -s $here/gitignore $HOME/.gitignore
