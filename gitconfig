@@ -23,7 +23,7 @@
 [apply]
 	whitespace = nowarn
 [format]
-	pretty = %C(yellow)%h%Creset %s %C(red)⇥(%an)%Creset 
+	pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset 
 [github]
 	user = emersonvinicius
 	token = a8b90d8e892afb301a0595358cf02e73

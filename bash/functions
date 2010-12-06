@@ -92,7 +92,5 @@ cd() {
   ls
 }
 
-git-scoreboard () { git log | egrep -o '⇥\(.+\)' | sort | uniq -ci | sort -r; }
-
 # Activate RVM
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
