@@ -2,15 +2,15 @@ title() {
   echo -ne "\033]0;$@\007";
 }
 
-reload() { 
-	source ~/.bash_profile; 
+reload() {
+	source ~/.bash_profile;
 }
 
 
 PS1="${YELLOW}\W ${RED}→ ${NO_COLOR}"
 
 custom_title () {
-	local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
+  local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
 
   if [[ "$BRANCH" = "" ]]; then
     BRANCH=`git status 2> /dev/null | grep "On branch" | sed 's/# On branch //'`
@@ -64,8 +64,8 @@ custom_title () {
     if [[ "$STATUS" =~ "$UNTRACKED" ]]; then
       STATE="${STATE}*"
     fi
-		
-		
+
+
     title "${RUBY_PROMPT} ${BRANCH}${PROMPT_STATUS}  ${STATE}"
   else
     title "${RUBY_PROMPT}"
