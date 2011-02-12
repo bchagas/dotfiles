@@ -9,6 +9,10 @@ rm -Rf $HOME/.gitignore
 rm -Rf $HOME/.ssh/config
 rm -Rf $HOME/.vimrc
 rm -Rf $HOME/.bash
+echo '=========='
+echo 'Adicionando novos arquivos'
+clear
+echo 'Adicionando novos arquivos'
 ln -s $here/autotest $HOME/.autotest
 ln -s $here/bash_profile $HOME/.bash_profile
 ln -s $here/inputrc $HOME/.inputrc
@@ -18,8 +22,10 @@ ln -s $here/gitignore $HOME/.gitignore
 ln -s $here/sshconfig $HOME/.ssh/config
 ln -s $here/vimrc $HOME/.vimrc
 ln -s $here/bash $HOME/.bash
-
+echo 'Atualizando Terminal'
 source $HOME/.bash_profile
 
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
 defaults write -g PMPrintingExpandedStateForPrint -bool TRUE
+
+echo 'Finalizando'
