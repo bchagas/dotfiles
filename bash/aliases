@@ -2,8 +2,6 @@ alias ..='cd ..'
 
 alias l="ls -lAh"
 
-# git
-alias git="git-achievements"
 alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
