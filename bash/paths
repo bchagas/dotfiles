@@ -1,11 +1,8 @@
 export PATH="/usr/local/bin:$HOME/.bin:$PATH"
 
-export PATH="/opt/local/mongo/bin:/usr/local/mysql/bin:/usr/local/pgsql/bin:$PATH"
+export PATH="$HOME/.rvm/bin:/usr/local/homebrew/bin:$PATH"
+export PATH="/usr/local/git/bin:$HOME/code/git-achievements:$PATH"
 
-export PATH="/opt/local/termtter/bin:$HOME/.rvm/bin:/usr/local/homebrew/bin:$PATH"
-export PATH="/usr/local/google_appengine:/usr/local/git/bin:$HOME/code/git-achievements:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
 
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
-
-export ZZPATH=/usr/bin/funcoeszz
-export SKEL_PATH=/Users/emersonvinicius/code/dotfiles/skel
+export ZZPATH=$HOME/.bash/funcoeszz
