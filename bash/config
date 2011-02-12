@@ -37,7 +37,7 @@ export WHITE="\[\033[1;37m\]"
 export YELLOW="\[\033[0;33m\]"
 export NICE_BLUE="\[\033[0;36m\]"
 
-source /usr/bin/funcoeszz
+source $HOME/.bash/funcoeszz
 
 shopt -s cdspell
 shopt -s nocaseglob
