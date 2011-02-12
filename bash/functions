@@ -7,16 +7,6 @@ reload() {
 }
 
 
-_rakecomplete() {
-  COMP_WORDBREAKS=${COMP_WORDBREAKS/\:/}
-  local words=`rake -T | grep rake | sed 's/rake \([^ ]*\).*/\1/'`
-  local cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=($(compgen -W "$words" -- $cur))
-  return 0
-}
-
-complete -o default -F _rakecomplete rake
-
 PS1="${YELLOW}\W ${RED}→ ${NO_COLOR}"
 
 custom_title () {
