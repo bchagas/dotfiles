@@ -3,19 +3,18 @@ title() {
 }
 
 reload() {
-	source ~/.bash_profile;
+  source ~/.bash_profile;
 }
 
-
-PS1="${YELLOW}\W ${RED}→ ${NO_COLOR}"
-
-custom_title () {
+custom_term () {
   local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
 
   if [[ "$BRANCH" = "" ]]; then
     BRANCH=`git status 2> /dev/null | grep "On branch" | sed 's/# On branch //'`
   fi
 
+  local DIR=$(basename `pwd`)
+  local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
   local RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
   local GEMSET_NAME=`rvm gemset name`
   local RUBY_PROMPT=""
@@ -29,12 +28,15 @@ custom_title () {
   local DIVERGED="have diverged"
   local CHANGED="# Changed but not updated"
   local TO_BE_COMMITED="# Changes to be committed"
+  local NOT_STAGED="# Changes not staged for commit"
   local LOG=`git log -1 2> /dev/null`
 
   if [[ "$GEMSET_NAME" != "" ]]; then
-    RUBY_PROMPT="${GEMSET_NAME}#${RUBY_VERSION}"
+    if [ "$GEMSET_NAME" != "/Users/evinicius/.rvm/gems/ree-1.8.7-2011.03" ]; then
+      RUBY_PROMPT="(${GEMSET_NAME}) "
+    fi
   else
-    RUBY_PROMPT="${RUBY_VERSION}"
+    RUBY_PROMPT="" # "${RUBY_VERSION}"
   fi
 
   if [ "$STATUS" != "" ]; then
@@ -55,7 +57,9 @@ custom_title () {
       STATE=""
     elif [[ "$STATUS" =~ "$TO_BE_COMMITED" ]]; then
       PROMPT_STATUS=""
-      STATE=""
+      STATE=" *"
+    elif [[ "$STATUS" =~ "$NOT_STAGED" ]]; then
+      STATE=" !"
     else
       PROMPT_STATUS=""
       STATE=""
@@ -65,14 +69,20 @@ custom_title () {
       STATE="${STATE}*"
     fi
 
-
-    title "${RUBY_PROMPT} ${BRANCH}${PROMPT_STATUS}  ${STATE}"
+    GIT_STATUS="${NICE_BLUE}${STATE}"
+    GIT_BRANCH="[${NICE_BLUE}${BRANCH}${YELLOW}]"
   else
-    title "${RUBY_PROMPT}"
+    GIT_STATUS=""
+    GIT_BRANCH=""
   fi
+
+  PS1="${YELLOW}\W${RUBY_PROMPT}${RED} → ${NO_COLOR}"
+
+  title "${DIR_NAME} ${BRANCH} ${STATE}"
 }
 
-PROMPT_COMMAND=custom_title
+
+PROMPT_COMMAND=custom_term
 
 cd() {
   builtin cd "${@:-$HOME}";
