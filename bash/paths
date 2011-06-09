@@ -1,8 +1,9 @@
 export PATH="/usr/local/bin:$HOME/.bin:$PATH"
-
 export PATH="$HOME/.rvm/bin:/usr/local/homebrew/bin:$PATH"
 export PATH="/usr/local/git/bin:$HOME/code/git-achievements:$PATH"
 
 export MANPATH="/usr/local/man:$MANPATH"
+
+export CDPATH=.:~:~/code:~/code/chrome_developer:~/code/github:~/code/labs:~/code/projects:~/code/safari_developer:~/code/work
 
 export ZZPATH=$HOME/.bash/funcoeszz

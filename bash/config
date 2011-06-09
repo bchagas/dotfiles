@@ -12,10 +12,6 @@ export SAVEHIST=100000
 export GREP_OPTIONS="--color=auto"
 export GREP_COLOR="4;33"
 
-#cd
-export CDPATH=.:~/code
-export CDHISTORY="/tmp/cd-${USER}"
-
 export LESS_TERMCAP_mb=$'\E[04;33m'
 export LESS_TERMCAP_md=$'\E[04;33m'
 export LESS_TERMCAP_me=$'\E[0m'
