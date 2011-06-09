@@ -1,25 +1,4 @@
-Host evinicius
-	HostName evinicius.com
-	User evinicius
-	Port 22
-
-Host proudhon
-	HostName 192.168.0.101
-	User duke
-	Port 22
-			
-Host riflaserver
-	HostName 192.168.0.117
-	User rifla
-	Port 22
-	
-Host zamenhof
-	HostName 200.171.89.68
-	User root
-	Port 22
-
-Host greentest
-        HostName 204.45.15.215
-        User team
+Host x
+	HostName 67.23.242.87
+        User duke
         Port 22
-	
