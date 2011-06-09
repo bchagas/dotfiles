@@ -92,5 +92,18 @@ cd() {
   ls
 }
 
+pid(){
+  ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
+}
+
+show_projects(){
+   ls -1 ~/code/work
+   ls -1 ~/code/projects
+   ls -1 ~/code/dukes
+   ls -1 ~/code/labs
+   ls -1 ~/code/safari_developer
+   ls -1 ~/code/github
+}
+
 # Activate RVM
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
