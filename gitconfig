@@ -1,0 +1,25 @@
+[user]
+	name = Emerson Vinicius
+	email = talk@evinicius.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
+[alias]
+	ci = commit -am
+	co = checkout
+	b = branch
+	st = status -s
+	who = shortlog -s --
+        commits = log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
+[core]
+	editor = mvim -g
+	autocrlf = input
+	excludefile = /Users/emersonvinicius/.gitignore
+[help]
+	autocorrect = 1
+[apply]
+	whitespace = nowarn
+[format]
+	pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset
