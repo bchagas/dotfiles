@@ -77,7 +77,6 @@ custom_term () {
   fi
 
   PS1="${YELLOW}\W${RUBY_PROMPT}${RED} → ${NO_COLOR}"
-
   title "${DIR_NAME} ${BRANCH} ${STATE}"
 }
 
@@ -97,13 +96,7 @@ pid(){
 }
 
 show_projects(){
-   ls -1 ~/code/work
-   ls -1 ~/code/projects
-   ls -1 ~/code/dukes
-   ls -1 ~/code/labs
-   ls -1 ~/code/safari_developer
-   ls -1 ~/code/github
+  ls -l1 | egrep --color=never [a-z0-9]
 }
 
-# Activate RVM
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
