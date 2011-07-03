@@ -32,7 +32,7 @@ custom_term () {
   local LOG=`git log -1 2> /dev/null`
 
   if [[ "$GEMSET_NAME" != "" ]]; then
-    if [ "$GEMSET_NAME" != "/Users/evinicius/.rvm/gems/ree-1.8.7-2011.03" ]; then
+    if [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ree-1.8.7-2011.03" ]; then
       RUBY_PROMPT="(${GEMSET_NAME}) "
     fi
   else
