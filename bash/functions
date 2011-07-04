@@ -6,18 +6,12 @@ reload() {
   source ~/.bash_profile;
 }
 
-custom_term () {
-  local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
-
-  if [[ "$BRANCH" = "" ]]; then
-    BRANCH=`git status 2> /dev/null | grep "On branch" | sed 's/# On branch //'`
+git_status(){
+  if [[ "$1" != "" ]]; then
+    local CURRENT_DIR=`pwd`
+    cd $1
   fi
 
-  local DIR=$(basename `pwd`)
-  local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
-  local RUBY_VERSION=`ruby -e "puts RUBY_VERSION"`
-  local GEMSET_NAME=``
-  local RUBY_PROMPT=""
   local STATUS=`git status 2>/dev/null`
   local PROMPT_STATUS=""
   local STATE=""
@@ -30,14 +24,6 @@ custom_term () {
   local TO_BE_COMMITED="# Changes to be committed"
   local NOT_STAGED="# Changes not staged for commit"
   local LOG=`git log -1 2> /dev/null`
-
-  if [[ "$GEMSET_NAME" != "" ]]; then
-    if [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ree-1.8.7-2011.03" ]; then
-      RUBY_PROMPT="(${GEMSET_NAME}) "
-    fi
-  else
-    RUBY_PROMPT="" # "${RUBY_VERSION}"
-  fi
 
   if [ "$STATUS" != "" ]; then
     if [[ "$STATUS" =~ "$NOTHING_TO_COMMIT" ]]; then
@@ -68,12 +54,27 @@ custom_term () {
     if [[ "$STATUS" =~ "$UNTRACKED" ]]; then
       STATE="${STATE}*"
     fi
+  fi
 
-    GIT_STATUS="${NICE_BLUE}${STATE}"
-    GIT_BRANCH="[${NICE_BLUE}${BRANCH}${YELLOW}]"
+  if [[ "$1" != "" ]]; then
+    cd $CURRENT_DIR
+  fi
+
+  echo "$STATE"
+}
+
+custom_term () {
+  local BRANCH=`git branch 2> /dev/null | grep \* | sed 's/* //'`
+  local STATE=`git_status`
+  local DIR=$(basename `pwd`)
+  local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
+
+  if [[ "$GEMSET_NAME" != "" ]]; then
+    if [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ree-1.8.7-2011.03" ]; then
+      RUBY_PROMPT="(${GEMSET_NAME}) "
+    fi
   else
-    GIT_STATUS=""
-    GIT_BRANCH=""
+    RUBY_PROMPT="" # "${RUBY_VERSION}"
   fi
 
   PS1="${YELLOW}\W${RUBY_PROMPT}${RED} → ${NO_COLOR}"
@@ -88,7 +89,6 @@ cd() {
   if [ -f .rvmrc ]; then
     __rvm_project_rvmrc
   fi
-  ls
 }
 
 pid(){
