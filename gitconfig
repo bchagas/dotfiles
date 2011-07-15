@@ -1,26 +1,26 @@
 [user]
-	name = Emerson Vinicius
-	email = duke@riseup.net
+  name = Bruno Chagas
+  email = brunochaagsweb@gmail.com
 [color]
-	diff = auto
-	status = auto
-	branch = auto
-	ui = true
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
 [alias]
-	ci = commit -am
-	co = checkout
-	b = branch
-	st = status -s
-        l = log --graph
-	who = shortlog -s --
-        commits = log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
+  ci = commit -am
+  co = checkout
+  b = branch
+  st = status -s
+  l = log --graph
+  who = shortlog -s --
+  commits = log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
 [core]
-	editor = mvim -g
-	autocrlf = input
-	excludefile = /Users/emersonvinicius/.gitignore
+  editor = mvim -g
+  autocrlf = input
+  excludefile = /Users/emersonvinicius/.gitignore
 [help]
-	autocorrect = 1
+  autocorrect = 1
 [apply]
-	whitespace = nowarn
+  whitespace = nowarn
 [format]
-	pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset
+  pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset

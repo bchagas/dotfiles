@@ -77,7 +77,7 @@ custom_term () {
     RUBY_PROMPT="" # "${RUBY_VERSION}"
   fi
 
-  PS1="${YELLOW}\W${RUBY_PROMPT}${RED} → ${NO_COLOR}"
+  PS1="${LIGHT_RED}\W${RUBY_PROMPT}${LIGHT_RED} ⊗ ${NO_COLOR}"
   title "${DIR_NAME} ${BRANCH} ${STATE}"
 }
 
