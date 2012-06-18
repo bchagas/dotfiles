@@ -70,15 +70,15 @@ custom_term () {
   local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
 
   if [[ "$GEMSET_NAME" != "" ]]; then
-    if [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ree-1.8.7-2011.03" ]; then
+    if ${YELLOW} [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ruby-1.9.3-p0" ]; then
       RUBY_PROMPT="(${GEMSET_NAME}) "
     fi
   else
     RUBY_PROMPT="" # "${RUBY_VERSION}"
   fi
 
-  PS1="${LIGHT_RED}\W${RUBY_PROMPT}${LIGHT_RED} ⊗ ${NO_COLOR}"
-  title "${DIR_NAME} ${BRANCH} ${STATE}"
+  PS1="${LIGHT_RED}\W${RUBY_PROMPT} ${YELLOW} ≈>  ${NO_COLOR}"
+  title "${RUBY_VERSION} - ${DIR_NAME} - ${BRANCH} - ${STATE}"
 }
 
 
