@@ -1,7 +1,4 @@
 alias ..='cd ..'
-
-alias l="ls -lAh"
-
 alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
@@ -14,11 +11,8 @@ alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resourc
 alias top="top -o rsize"
 alias make="make -j 2"
 alias cleanup="sudo rm -rf /private/var/log/asl/*"
-alias projects="cd /Users/brunochagas/Documents/workspace/projects"
-alias work="cd /Users/brunochagas/Documents/workspace/revmob"
+alias workspace="cd /Users/brunochagas/Documents/Workspace/"
 alias pstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias gems="cd /Users/brunochagas/Documents/workspace/gems"
 alias be="bundle exec"
-alias nc="nanoc compile"
-alias nv="nanoc view"
