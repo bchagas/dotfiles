@@ -69,14 +69,6 @@ custom_term () {
   local DIR=$(basename `pwd`)
   local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
 
-  if [[ "$GEMSET_NAME" != "" ]]; then
-    if ${YELLOW} [ "$GEMSET_NAME" != "$HOME/.rvm/gems/ruby-1.9.3-p0" ]; then
-      RUBY_PROMPT="(${GEMSET_NAME}) "
-    fi
-  else
-    RUBY_PROMPT="" # "${RUBY_VERSION}"
-  fi
-
   PS1="${LIGHT_RED}\W${RUBY_PROMPT} ${YELLOW} ≈>  ${NO_COLOR}"
   title "${RUBY_VERSION} - ${DIR_NAME} - ${BRANCH} - ${STATE}"
 }
@@ -86,9 +78,6 @@ PROMPT_COMMAND=custom_term
 
 cd() {
   builtin cd "${@:-$HOME}";
-  if [ -f .rvmrc ]; then
-    __rvm_project_rvmrc
-  fi
 }
 
 pid(){
@@ -98,7 +87,5 @@ pid(){
 show_projects(){
   ls -l1 $HOME/code | egrep --color=never [a-z0-9]
 }
-
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
 export CC="/usr/bin/gcc-4.2"
