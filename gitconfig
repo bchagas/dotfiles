@@ -1,6 +1,6 @@
 [user]
   name = Bruno Chagas
-  email = brunochaagsweb@gmail.com
+  email = brunochagasweb@gmail.com
 [color]
   diff = auto
   status = auto
@@ -17,7 +17,7 @@
 [core]
   editor = mvim -g
   autocrlf = input
-  excludefile = /Users/emersonvinicius/.gitignore
+  excludefile = /Users/brunochagas/.gitignore
 [help]
   autocorrect = 1
 [apply]
