@@ -16,3 +16,4 @@ alias pstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/serve
 alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias gems="cd /Users/brunochagas/Documents/workspace/gems"
 alias be="bundle exec"
+alias iPhoneSimulator="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
