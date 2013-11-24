@@ -3,7 +3,6 @@ alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
 #misc
-alias vim="mvim -p"
 alias gitx="/Applications/GitX.app/Contents/MacOS/GitX &"
 alias psgrep="ps aux | egrep -v egrep | egrep"
 alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"
