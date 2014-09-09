@@ -7,3 +7,5 @@ pkg
 tmp
 coverage
 *.sw?
+.DS_Store
+.ruby-version

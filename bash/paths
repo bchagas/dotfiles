@@ -1,4 +1,5 @@
 export PATH="/usr/local/aws-elasticBeanstalk/eb/linux/python2.7:/usr/local/heroku/bin:$HOME/.rbenv/bin:/usr/local/bin:$HOME/.bin:/usr/local/Cellar/bin/:/usr/local/homebrew/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export ZZPATH=$HOME/.bash/funcoeszz
-export RBENV_ROOT=/usr/local/var/rbenv
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
