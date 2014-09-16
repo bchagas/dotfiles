@@ -5,7 +5,6 @@ alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 #misc
 alias gitx="/Applications/GitX.app/Contents/MacOS/GitX &"
 alias psgrep="ps aux | egrep -v egrep | egrep"
-alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"
 alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend"
 alias top="top -o rsize"
 alias make="make -j 2"
@@ -18,3 +17,4 @@ alias be="bundle exec"
 alias iPhoneSimulator="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
 alias dnsFlush="sudo killall -HUP mDNSResponder"
 alias hubbiz_staging="ssh hubbiz@lauper.connecorp.com && cd /home/hubbiz/app/current"
+alias vundle='vim +BundleInstall +qall'
