@@ -17,7 +17,7 @@
 [core]
   editor = mvim -g
   autocrlf = input
-	excludesfile = /Users/brunochagas/.gitignore_global
+	excludesfile = ~/.gitignore
 [help]
   autocorrect = 1
 [apply]
