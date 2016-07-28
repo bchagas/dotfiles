@@ -1,6 +1,6 @@
 #editor
-export EDITOR='mvim -g'
-export GIT_EDITOR="mvim -g"
+export EDITOR='vim -g'
+export GIT_EDITOR="vim -g"
 
 #history
 export HISTCONTROL=erasedups
