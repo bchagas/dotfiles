@@ -3,6 +3,7 @@ database.yml
 log/*
 *.sqlite3
 db/schema.rb
+*dump.rdb
 pkg
 tmp
 coverage
@@ -10,4 +11,10 @@ coverage
 .DS_Store
 .ruby-version
 .byebug_history
+.vscode/
+.nvmrc
+*/out/*
 Procfile
+.#
+.nvmrc
+

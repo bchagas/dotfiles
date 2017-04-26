@@ -18,4 +18,3 @@ alias iPhoneSimulator="open /Applications/Xcode.app/Contents/Developer/Platforms
 alias dnsFlush="sudo killall -HUP mDNSResponder"
 alias hubbiz_staging="ssh hubbiz@lauper.connecorp.com && cd /home/hubbiz/app/current"
 alias vundle='vim +BundleInstall +qall'
-alias sitespeed='sudo docker run --privileged --rm -v "$(pwd)":/sitespeed.io sitespeedio/sitespeed.io sitespeed.io -u -b firefox'
