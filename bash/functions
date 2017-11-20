@@ -70,7 +70,7 @@ custom_term () {
   local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
 
   PS1="${LIGHT_RED}\W${RUBY_PROMPT} - ${BRANCH}${YELLOW} ≈> ${NO_COLOR}"
-  title "${RUBY_VERSION} - ${DIR_NAME} - ${BRANCH} - ${STATE}"
+  title "${RUBY_VERSION} - ${DIR} - ${BRANCH} - ${STATE}"
 }
 
 

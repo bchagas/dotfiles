@@ -1,7 +1,7 @@
 [user]
   name = Bruno Chagas
   email = brunochagasweb@gmail.com
-  signingkey = E971CE1F17BD5E76
+	signingkey = AF6D5C7F
 [color]
   diff = auto
   status = auto
@@ -26,7 +26,7 @@
 [format]
   pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset
 [commit]
-  gpgsign = true
+	gpgsign = true
 [diff]
 	tool = filemerge
 [difftool]
@@ -41,3 +41,5 @@
 [mergetool "meld"]
   trustExitCode = true
   cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
+[gpg]
+	program = /usr/local/bin/gpg

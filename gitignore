@@ -17,4 +17,7 @@ coverage
 Procfile
 .#
 .nvmrc
-
+project-extras
+.vagrant
+.chrome
+.jekyll-metadata
