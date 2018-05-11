@@ -85,7 +85,7 @@ pid(){
 }
 
 show_projects(){
-  ls -l1 $HOME/workspace | egrep --color=never [a-z0-9]
+  ls -l1 $HOME/Documents/workspace | egrep --color=never [a-z0-9]
 }
 
 youtube_dl_audio(){
