@@ -4,3 +4,6 @@ export ZZPATH=$HOME/.bash/funcoeszz
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/opt/gradle/gradle-4.2.1/bin
+export ANDROID_HOME=/usr/local/opt/android-sdk
+export NVM_DIR="$HOME/.nvm"
+    . "/usr/local/opt/nvm/nvm.sh"
