@@ -1,6 +1,7 @@
 alias ..='cd ..'
 alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+alias cat='bat'
 
 #misc
 alias gitx="/Applications/GitX.app/Contents/MacOS/GitX &"

@@ -35,7 +35,7 @@
   trustExitCode = true
   cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
 [merge]
-	tool = filemerge
+	tool = opendiff
 [mergetool]
   prompt = false
 [mergetool "meld"]

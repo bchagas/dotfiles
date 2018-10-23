@@ -3,7 +3,6 @@ source $HOME/.bash/config
 source $HOME/.bash/aliases
 source $HOME/.bash/completions
 source $HOME/.bash/functions
-eval "$(rbenv init -)"
 
 export NVM_DIR="/Users/brunochagas/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -16,3 +15,5 @@ if [ -f '/Users/brunochagas/google-cloud-sdk/path.bash.inc' ]; then source '/Use
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/brunochagas/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/brunochagas/google-cloud-sdk/completion.bash.inc'; fi
 export GPG_TTY=$(tty)
+
+eval "$(rbenv init -)"

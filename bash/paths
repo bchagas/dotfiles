@@ -1,8 +1,7 @@
 export PATH="/usr/local/aws-elasticBeanstalk/eb/linux/python2.7:/usr/local/heroku/bin:$HOME/.rbenv/bin:/usr/local/bin:$HOME/.bin:/usr/local/Cellar/bin/:/usr/local/homebrew/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export ZZPATH=$HOME/.bash/funcoeszz
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:/opt/gradle/gradle-4.2.1/bin
 export ANDROID_HOME=/usr/local/opt/android-sdk
 export NVM_DIR="$HOME/.nvm"
