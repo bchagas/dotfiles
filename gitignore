@@ -12,7 +12,7 @@ coverage
 .ruby-version
 .byebug_history
 .vscode/
-.nvmrc
+.env*
 */out/*
 Procfile
 .#
