@@ -3,6 +3,7 @@ export MANPATH="/usr/local/man:$MANPATH"
 export ZZPATH=$HOME/.bash/funcoeszz
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:/opt/gradle/gradle-4.2.1/bin
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export PATH=$PATH:$HOME/Documents/Workspaces/flutter/bin
+export ANDROID_HOME=$HOME/Documents/Workspaces/android-sdk
 export NVM_DIR="$HOME/.nvm"
     . "/usr/local/opt/nvm/nvm.sh"
