@@ -33,6 +33,11 @@ export WHITE="\[\033[1;37m\]"
 export YELLOW="\[\033[0;33m\]"
 export NICE_BLUE="\[\033[0;36m\]"
 
+# Lang
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+
 source $HOME/.bash/funcoeszz
 
 shopt -s cdspell
