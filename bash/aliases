@@ -2,6 +2,7 @@ alias ..='cd ..'
 alias gl="git log --oneline --graph --color --pretty=format:'(%an) - %s - %h '"
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias cat='bat'
+alias ag='ag --path-to-ignore ~/.ignore'
 
 #misc
 alias gitx="/Applications/GitX.app/Contents/MacOS/GitX &"
@@ -17,5 +18,6 @@ alias gems="cd /Users/brunochagas/Documents/workspace/gems"
 alias be="bundle exec"
 alias iPhoneSimulator="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
 alias dnsFlush="sudo killall -HUP mDNSResponder"
-alias hubbiz_staging="ssh hubbiz@lauper.connecorp.com && cd /home/hubbiz/app/current"
+alias FFBR_VM="ssh -i ~/.ssh/id_rsa-farfetch bruno.chagas@10.31.130.18"
 alias vundle='vim +BundleInstall +qall'
+alias cd='cdnvm(){ cd $@; if [[ -f .nvmrc && -s .nvmrc && -r .nvmrc ]]; then <.nvmrc nvm install; elif [[ $(nvm current) != $(nvm version default) ]]; then nvm use default; fi; };cdnvm'
