@@ -69,16 +69,11 @@ custom_term () {
   local DIR=$(basename `pwd`)
   local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
 
-  PS1="${LIGHT_RED}\W${RUBY_PROMPT} - ${BRANCH}${YELLOW} ≈> ${NO_COLOR}"
-  title "${RUBY_VERSION} - ${DIR} - ${BRANCH} - ${STATE}"
+  PS1="🍺${LIGHT_RED}/\W:${YELLOW}${BRANCH}${YELLOW} \n >> ${NO_COLOR}"
+  title "${RUBY_VERSION} || ${NODE_VERSION} - ${DIR} - ${BRANCH} - ${STATE}"
 }
-
 
 PROMPT_COMMAND=custom_term
-
-cd() {
-  builtin cd "${@:-$HOME}";
-}
 
 pid(){
   ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
