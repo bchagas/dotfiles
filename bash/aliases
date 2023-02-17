@@ -21,3 +21,8 @@ alias dnsFlush="sudo killall -HUP mDNSResponder"
 alias FFBR_VM="ssh -i ~/.ssh/id_rsa-farfetch bruno.chagas@10.31.130.18"
 alias vundle='vim +BundleInstall +qall'
 alias cd='cdnvm(){ cd $@; if [[ -f .nvmrc && -s .nvmrc && -r .nvmrc ]]; then <.nvmrc nvm install; elif [[ $(nvm current) != $(nvm version default) ]]; then nvm use default; fi; };cdnvm'
+alias aws-login-prod="aws --profile will-prod-sso sso login"
+alias aws-login-stage="aws --profile will-stg-sso sso login"
+alias aws-login-dev="aws --profile will-dev-stg sso login"
+alias s3-list-fast-files="aws s3 ls ftp-will-fast-prod/Enviados/Movimentacoes/ --human-readable --summarize --profile will-prod-sso"
+alias s3-list-files=s3_list_files

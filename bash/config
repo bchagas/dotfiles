@@ -37,6 +37,8 @@ export NICE_BLUE="\[\033[0;36m\]"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+export CC="/usr/bin/gcc-4.2"
+
 
 source $HOME/.bash/funcoeszz
 
