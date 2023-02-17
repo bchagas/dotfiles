@@ -83,5 +83,17 @@ show_projects(){
   ls -l1 $HOME/Documents/workspace | egrep --color=never [a-z0-9]
 }
 
+s3_list_files() {
+  local AWS_PROFILE=""
 
 
+  if [[ "$2" == "" ]]; then
+    echo "Select your profile first:" `aws configure list-profiles`
+  else
+    AWS_PROFILE="$2"
+  fi
+
+  if [[ "$1" != "" ]]; then
+    aws s3 ls "$1" --human-readable --summarize --profile ${AWS_PROFILE}
+  fi
+}
