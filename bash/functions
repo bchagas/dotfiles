@@ -69,7 +69,7 @@ custom_term () {
   local DIR=$(basename `pwd`)
   local DIR_NAME=`ruby -e "puts '${DIR}'.capitalize"`
 
-  PS1="🍺${LIGHT_RED}/\W:${YELLOW}${BRANCH}${YELLOW} \n >> ${NO_COLOR}"
+  PS1="${LIGHT_RED}/\W:${YELLOW}${BRANCH}${YELLOW} -> ${NO_COLOR}"
   title "${RUBY_VERSION} || ${NODE_VERSION} - ${DIR} - ${BRANCH} - ${STATE}"
 }
 
