@@ -3,7 +3,7 @@ title() {
 }
 
 reload() {
-  source ~/.bash_profile;
+  source ~/.zshrc;
 }
 
 git_status(){

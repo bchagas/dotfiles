@@ -39,15 +39,4 @@ export LANG=en_US.UTF-8
 
 export CC="/usr/bin/gcc-4.2"
 
-
-source $HOME/.bash/funcoeszz
-
-shopt -s cdspell
-shopt -s nocaseglob
-shopt -s checkwinsize
-shopt -s dotglob
-shopt -s extglob
-shopt -s progcomp
 set -o ignoreeof
-bind "set completion-ignore-case on"      # ignore case on bash completion
-bind "set mark-symlinked-directories on"  # add trailing slash to symlinked directories

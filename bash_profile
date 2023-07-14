@@ -1,3 +1,5 @@
+autoload -Uz compinit && compinit
+
 source $HOME/.bash/paths
 source $HOME/.bash/config
 source $HOME/.bash/aliases
