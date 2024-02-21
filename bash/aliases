@@ -7,22 +7,9 @@ alias ag='ag --path-to-ignore ~/.ignore'
 #misc
 alias gitx="/Applications/GitX.app/Contents/MacOS/GitX &"
 alias psgrep="ps aux | egrep -v egrep | egrep"
-alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend"
 alias top="top -o rsize"
 alias make="make -j 2"
-alias cleanup="sudo rm -rf /private/var/log/asl/*"
 alias workspace="cd /Users/bruno.chagas/Documents/Workspace/"
-alias pstart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
-alias pstop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
-alias gems="cd /Users/bruno.chagas/Documents/workspace/gems"
-alias be="bundle exec"
-alias iPhoneSimulator="open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app"
+alias dotfiles="cd /Users/bruno.chagas/Documents/dotfiles/"
 alias dnsFlush="sudo killall -HUP mDNSResponder"
-alias FFBR_VM="ssh -i ~/.ssh/id_rsa-farfetch bruno.chagas@10.31.130.18"
 alias vundle='vim +BundleInstall +qall'
-alias cd='cdnvm(){ cd $@; if [[ -f .nvmrc && -s .nvmrc && -r .nvmrc ]]; then <.nvmrc nvm install; elif [[ $(nvm current) != $(nvm version default) ]]; then nvm use default; fi; };cdnvm'
-alias aws-login-prod="aws --profile will-prod-sso sso login"
-alias aws-login-stage="aws --profile will-stg-sso sso login"
-alias aws-login-dev="aws --profile will-dev-stg sso login"
-alias s3-list-fast-files="aws s3 ls ftp-will-fast-prod/Enviados/Movimentacoes/ --human-readable --summarize --profile will-prod-sso"
-alias s3-list-files=s3_list_files
