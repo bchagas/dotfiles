@@ -1,8 +1,3 @@
-export PATH="/usr/local/aws-elasticBeanstalk/eb/linux/python2.7:/usr/local/heroku/bin:$HOME/.rbenv/bin:/usr/local/bin:$HOME/.bin:/usr/local/Cellar/bin/:/usr/local/homebrew/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export PATH=$PATH:/opt/gradle/gradle-4.2.1/bin
-export PATH=$PATH:$HOME/Documents/Workspaces/flutter/bin
-export ANDROID_HOME=$HOME/Documents/Workspaces/android-sdk
-export NVM_DIR="$HOME/.nvm"
-    . "/usr/local/opt/nvm/nvm.sh"
+export PATH=/opt/homebrew/bin:$PATH
