@@ -1,7 +1,7 @@
 [user]
   name = Bruno Chagas
 	email = 105735+bchagas@users.noreply.github.com
-	signingkey = 738E558F95E68F9
+	signingkey = 0945C686D8278751
 [color]
   diff = auto
   status = auto
@@ -26,7 +26,7 @@
 [format]
   pretty = %C(yellow)%h%Creset %s %C(red)%an%Creset
 [commit]
-	gpgsign = false
+	gpgsign = true
 [diff]
 	tool = filemerge
 [difftool]
@@ -43,3 +43,12 @@
   cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
 [gpg]
 	program = gpg
+[url "git@github.com:"]
+	insteadOf = git://github.com/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[safe]
+	directory = /opt/mports/macports-base

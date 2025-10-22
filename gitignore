@@ -3,6 +3,7 @@ database.yml
 log/*
 *.sqlite3
 db/schema.rb
+output_schema.json
 *dump.rdb
 pkg
 tmp
@@ -21,3 +22,4 @@ project-extras
 .vagrant
 .chrome
 .jekyll-metadata
+.sdkmanrc
