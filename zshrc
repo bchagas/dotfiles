@@ -10,6 +10,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+export GPG_TTY=$(tty)
 export NU_HOME=${HOME}/dev/nu
 export NUCLI_HOME=${NU_HOME}/nucli
 export PATH=${NUCLI_HOME}:${PATH}

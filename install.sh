@@ -8,6 +8,7 @@ rm -Rf $HOME/.gitconfig
 rm -Rf $HOME/.gitignore
 rm -Rf $HOME/.ssh/config
 rm -Rf $HOME/.vimrc
+rm -Rf $HOME/.config/nvim
 echo '=========='
 echo 'Adicionando novos arquivos'
 clear
@@ -18,6 +19,7 @@ ln -s $here/gitconfig $HOME/.gitconfig
 ln -s $here/gitignore $HOME/.gitignore
 ln -s $here/sshconfig $HOME/.ssh/config
 ln -s $here/vimrc $HOME/.vimrc
+ln -s $here/nvim $HOME/.config/nvim
 echo 'Atualizando Terminal'
 source $HOME/.zshrc
 
