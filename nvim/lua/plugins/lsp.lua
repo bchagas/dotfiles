@@ -9,7 +9,8 @@ return {
     },
   },
 
-  -- Bridge between mason and lspconfig
+  -- Bridge between mason and lspconfig (v2: installed servers are enabled
+  -- automatically via vim.lsp.enable)
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
@@ -22,11 +23,11 @@ return {
         "cssls",    -- CSS
         "lua_ls",   -- Lua (editing this config)
       },
-      automatic_installation = true,
     },
   },
 
-  -- Core LSP
+  -- Core LSP (Neovim 0.11+ native API: vim.lsp.config / vim.lsp.enable;
+  -- nvim-lspconfig only provides the per-server defaults in lsp/*.lua)
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
@@ -36,32 +37,50 @@ return {
       "b0o/schemastore.nvim",
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Shared on_attach: LSP keymaps applied per buffer
-      local on_attach = function(_, bufnr)
-        local map = function(keys, func, desc)
-          vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
-        end
-        map("gd",         vim.lsp.buf.definition,      "Go to definition")
-        map("gD",         vim.lsp.buf.declaration,     "Go to declaration")
-        map("gr",         vim.lsp.buf.references,      "Go to references")
-        map("gi",         vim.lsp.buf.implementation,  "Go to implementation")
-        map("K",          vim.lsp.buf.hover,           "Hover docs")
-        map("<leader>rn", vim.lsp.buf.rename,          "Rename symbol")
-        map("<leader>ca", vim.lsp.buf.code_action,     "Code action")
-        map("<leader>ds", vim.lsp.buf.document_symbol, "Document symbols")
-      end
+      -- Keymaps + per-server tweaks, applied whenever a server attaches to a buffer
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspAttach", { clear = true }),
+        callback = function(args)
+          local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client then return end
 
-      -- TypeScript / JavaScript (conform owns formatting, not ts_ls)
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-          on_attach(client, bufnr)
+          local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+          end
+          map("gd",         vim.lsp.buf.definition,      "Go to definition")
+          map("gD",         vim.lsp.buf.declaration,     "Go to declaration")
+          map("gr",         vim.lsp.buf.references,      "Go to references")
+          map("gi",         vim.lsp.buf.implementation,  "Go to implementation")
+          map("K",          vim.lsp.buf.hover,           "Hover docs")
+          map("<leader>rn", vim.lsp.buf.rename,          "Rename symbol")
+          map("<leader>ca", vim.lsp.buf.code_action,     "Code action")
+          map("<leader>ds", vim.lsp.buf.document_symbol, "Document symbols")
+
+          -- TypeScript / JavaScript: conform owns formatting, not ts_ls
+          if client.name == "ts_ls" then
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end
+
+          -- ESLint: auto-fix on save (LspEslintFixAll is created by lsp/eslint.lua)
+          if client.name == "eslint" then
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("EslintFixOnSave_" .. bufnr, { clear = true }),
+              buffer = bufnr,
+              command = "LspEslintFixAll",
+            })
+          end
         end,
+      })
+
+      -- Defaults for every server
+      vim.lsp.config("*", { capabilities = capabilities })
+
+      -- TypeScript / JavaScript
+      vim.lsp.config("ts_ls", {
         settings = {
           typescript = {
             inlayHints = {
@@ -77,22 +96,8 @@ return {
         },
       })
 
-      -- ESLint LSP (inline diagnostics + auto-fix on save)
-      lspconfig.eslint.setup({
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            command = "EslintFixAll",
-          })
-          on_attach(client, bufnr)
-        end,
-      })
-
       -- JSON with schema catalog
-      lspconfig.jsonls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config("jsonls", {
         settings = {
           json = {
             schemas = require("schemastore").json.schemas(),
@@ -101,16 +106,8 @@ return {
         },
       })
 
-      -- CSS
-      lspconfig.cssls.setup({ capabilities = capabilities, on_attach = on_attach })
-
-      -- HTML
-      lspconfig.html.setup({ capabilities = capabilities, on_attach = on_attach })
-
       -- Lua (for editing this config)
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
+      vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
             runtime = { version = "LuaJIT" },
@@ -124,6 +121,11 @@ return {
         },
       })
 
+      -- eslint / cssls / html use the lsp/*.lua defaults as-is.
+      -- No vim.lsp.enable() here: mason-lspconfig (automatic_enable, default in
+      -- v2) enables every server installed through Mason, including the
+      -- ensure_installed ones above, so nothing is enabled before it exists.
+
       -- Diagnostic display
       vim.diagnostic.config({
         virtual_text = { spacing = 4, prefix = "●" },
@@ -131,7 +133,7 @@ return {
         underline = true,
         update_in_insert = false,
         severity_sort = true,
-        float = { border = "rounded", source = "always" },
+        float = { border = "rounded", source = true },
       })
     end,
   },

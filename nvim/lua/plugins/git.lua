@@ -2,7 +2,15 @@ return {
   -- vim-fugitive (from vimrc — direct port)
   {
     "tpope/vim-fugitive",
-    cmd = { "Git", "Gdiffsplit", "Gblame", "Glog" },
+    -- :Gblame/:Glog no longer exist in fugitive (:Git blame / :Gclog now)
+    cmd = { "Git", "Gdiffsplit", "Gclog" },
+    init = function()
+      -- :Gblame alias -> :Git blame (supports a range, e.g. :'<,'>Gblame)
+      vim.api.nvim_create_user_command("Gblame", function(o)
+        local range = o.range > 0 and (o.line1 .. "," .. o.line2) or ""
+        vim.cmd(range .. "Git blame " .. o.args)
+      end, { nargs = "*", range = true, desc = "Alias for :Git blame" })
+    end,
   },
 
   -- Gitsigns: inline hunks + blame (replaces gitv)

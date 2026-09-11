@@ -49,7 +49,7 @@ opt.history = 1000
 
 -- Folding (treesitter-based)
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 1
 opt.foldnestmax = 10
 
@@ -65,4 +65,3 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 -- Misc
 opt.ruler = true
 opt.linespace = 0
-opt.t_Co = "256"

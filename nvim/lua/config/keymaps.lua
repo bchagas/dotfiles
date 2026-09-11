@@ -28,8 +28,8 @@ map("n", "<leader>h", "<cmd>Telescope help_tags<CR>", { desc = "Help tags" })
 map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "Git status" })
 
 -- Diagnostics
-map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Prev diagnostic" })
+map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end,  { desc = "Next diagnostic" })
 map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 
 -- DAP (from vimrc conventions)
