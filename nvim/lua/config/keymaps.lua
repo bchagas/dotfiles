@@ -59,5 +59,5 @@ map({ "n", "v" }, "<leader>p", "<cmd>lua require('conform').format({ async = tru
 map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<CR>",         { desc = "Diagnostics (workspace)" })
 map("n", "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>", { desc = "Diagnostics (buffer)" })
 
--- AI: avante registers <leader>aa, <leader>at, <leader>ar automatically
+-- AI: Claude Code (claudecode.nvim) uses <leader>a* — see plugins/ai.lua
 -- Copilot accept: <M-l> (set in ai.lua)

@@ -26,89 +26,55 @@ return {
     end,
   },
 
-  -- ── Avante: Claude chat panel (like Cursor, on-demand) ────────────────────
+  -- ── Claude Code: IDE integration (runs the `claude` CLI in a split) ─────
+  -- Signs in with your Claude subscription through Claude Code itself; no API key.
+  -- Claude sees the current file/selection and proposes edits as native diffs.
   {
-    "yetone/avante.nvim",
-    event   = "VeryLazy",
-    version = false,
-    build   = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts  = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name  = false,
-            drag_and_drop         = { insert_mode = true },
-            use_absolute_path     = true,
-          },
-        },
-      },
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = { file_types = { "markdown", "Avante" } },
-        ft   = { "markdown", "Avante" },
-      },
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    -- Command stubs so :ClaudeCode* work before any <leader>a* key is pressed
+    cmd = {
+      "ClaudeCode",
+      "ClaudeCodeFocus",
+      "ClaudeCodeSelectModel",
+      "ClaudeCodeAdd",
+      "ClaudeCodeSend",
+      "ClaudeCodeTreeAdd",
+      "ClaudeCodeStatus",
+      "ClaudeCodeStart",
+      "ClaudeCodeStop",
+      "ClaudeCodeOpen",
+      "ClaudeCodeClose",
+      "ClaudeCodeDiffAccept",
+      "ClaudeCodeDiffDeny",
+      "ClaudeCodeCloseAllDiffs",
     },
-    opts = {
-      -- Provider: Claude via Anthropic API
-      -- Requires ANTHROPIC_API_KEY env var (set in ~/.zshenv)
-      provider = "claude",
-      claude = {
-        endpoint    = "https://api.anthropic.com",
-        model       = "claude-sonnet-4-6",
-        timeout     = 30000,
-        temperature = 0,
-        max_tokens  = 8096,
+    keys = {
+      { "<leader>a",  nil,                              desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v", desc = "Send to Claude" },
+      {
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft   = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
       },
-
-      behaviour = {
-        -- copilot.vim handles ambient completions; avante is deliberate/on-demand
-        auto_suggestions                 = false,
-        auto_set_highlight_group         = true,
-        auto_set_keymaps                 = true,
-        auto_apply_diff_after_generation = false,
-        support_paste_from_clipboard     = false,
-      },
-
-      windows = {
-        position = "right",
-        wrap     = true,
-        width    = 40,
-        sidebar_header = {
-          align   = "center",
-          rounded = true,
-        },
-      },
-
-      mappings = {
-        diff = {
-          ours      = "co",
-          theirs    = "ct",
-          all_theirs = "ca",
-          both      = "cb",
-          cursor    = "cc",
-          next      = "]x",
-          prev      = "[x",
-        },
-        submit = {
-          normal = "<CR>",
-          insert = "<C-CR>",
-        },
-      },
+      -- Diff management
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",  desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",    desc = "Deny diff" },
     },
   },
 
-  -- dressing.nvim: better vim.ui.input / vim.ui.select (used by avante)
+  -- render-markdown: rendered headings/lists/code blocks in markdown buffers
   {
-    "stevearc/dressing.nvim",
-    lazy = true,
-    opts = {},
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft   = { "markdown" },
+    opts = { file_types = { "markdown" } },
   },
 }
