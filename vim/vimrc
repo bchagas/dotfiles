@@ -1,0 +1,8 @@
+" Fallback config for plain vim — the daily editor is nvim (see nvim/)
+set nocompatible
+syntax on
+filetype plugin indent on
+set number
+set expandtab tabstop=2 shiftwidth=2
+set backspace=indent,eol,start
+set incsearch hlsearch ignorecase smartcase

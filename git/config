@@ -1,7 +1,7 @@
 [user]
-  name = Bruno Chagas
+	name = bchagas
 	email = 105735+bchagas@users.noreply.github.com
-	signingkey = 0945C686D8278751
+	signingkey = C39C9F7547D42AD6
 [color]
   diff = auto
   status = auto
@@ -16,9 +16,8 @@
   who = shortlog -s --
   commits = log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
 [core]
-	editor = vim
+	editor = nvim
   autocrlf = input
-  excludesfile = ~/.gitignore
 [help]
   autocorrect = 1
 [apply]
@@ -52,3 +51,5 @@
 	required = true
 [safe]
 	directory = /opt/mports/macports-base
+[tag]
+	gpgsign = true
