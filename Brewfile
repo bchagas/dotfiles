@@ -16,6 +16,8 @@ brew "docker"
 brew "gh"
 # Library and utilities for processing GIFs
 brew "giflib"
+# Git extension for versioning large files
+brew "git-lfs"
 # GNU version of the tar archiving utility
 brew "gnu-tar"
 # Open source programming language to build simple/reliable/efficient software

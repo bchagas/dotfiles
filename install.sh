@@ -115,8 +115,9 @@ if ! have claude && [ ! -x "$HOME/.local/bin/claude" ]; then
   curl -fsSL https://claude.ai/install.sh | bash || warn "failed to install Claude Code"
 fi
 
-# Required by git/config but installed outside the Brewfile on the original Mac:
-# gpg signs every commit and tag, git-lfs is a required filter
+# Required by git/config, installed here so a run without --brew still gets them:
+# gpg signs every commit and tag (GPG Suite is not a brew package), git-lfs is a
+# required filter
 if have brew; then
   have gpg     || brew install --cask gpg-suite || warn "failed to install GPG Suite"
   have git-lfs || brew install git-lfs          || warn "failed to install git-lfs"

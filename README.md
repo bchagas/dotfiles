@@ -64,6 +64,6 @@ Machine-local files, **never versioned** (install.sh creates them empty, mode 60
 
 - `./install.sh` can be run at any time; it only does what is missing.
 - After installing or removing brew packages, refresh the Brewfile:
-  `brew bundle dump --force --file=Brewfile`. GPG Suite, git-lfs and Claude Code are
-  deliberately not in the Brewfile: install.sh takes care of them.
+  `brew bundle dump --force --file=Brewfile`. GPG Suite and Claude Code are deliberately
+  not in the Brewfile: install.sh takes care of them.
 - Work-only configuration lives in `zsh/conf.d/work.zsh`.
