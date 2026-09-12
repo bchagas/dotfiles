@@ -45,8 +45,8 @@ Machine-local files, **never versioned** (install.sh creates them empty, mode 60
    - the GPG key. **Without it every commit fails**, since git signs commits and tags:
 
      ```sh
-     # on the old Mac
-     gpg --export-secret-keys --armor C39C9F7547D42AD6 > gpg-key.asc
+     # on the old Mac (the key id comes from git/config)
+     gpg --export-secret-keys --armor "$(git config user.signingkey)" > gpg-key.asc
      # on the new Mac
      gpg --import gpg-key.asc && rm gpg-key.asc
      ```
