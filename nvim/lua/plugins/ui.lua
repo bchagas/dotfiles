@@ -40,6 +40,7 @@ return {
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
+      extensions = { "nvim-tree" },
     },
   },
 
@@ -48,10 +49,35 @@ return {
     "nvim-tree/nvim-tree.lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    init = function()
+      -- Hide the `~` end-of-buffer markers inside the tree window
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        pattern = "NvimTree_*",
+        callback = function() vim.opt_local.fillchars:append({ eob = " " }) end,
+      })
+
+      -- netrw is disabled, so when nvim is started on a directory (e.g. `nvim .`)
+      -- make it the cwd and open the tree as a sidebar next to an empty buffer,
+      -- the same layout as <leader>e
+      local dir = vim.fn.argv(0)
+      if vim.fn.argc() ~= 1 or vim.fn.isdirectory(dir) == 0 then return end
+      vim.api.nvim_create_autocmd("VimEnter", {
+        once = true,
+        nested = true,
+        callback = function()
+          vim.cmd.cd(dir)
+          local dir_buf = vim.api.nvim_get_current_buf()
+          vim.cmd.enew()
+          vim.api.nvim_buf_delete(dir_buf, { force = true })
+          require("nvim-tree.api").tree.open()
+        end,
+      })
+    end,
     opts = {
       sort_by = "case_sensitive",
       view = { width = 35 },
       renderer = {
+        root_folder_label = ":~",
         group_empty = true,
         highlight_git = true,
         icons = { show = { git = true } },
