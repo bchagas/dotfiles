@@ -6,7 +6,8 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
-    branch = "0.1.x",
+    -- Track master: the 0.1.x branch still calls nvim-treesitter's removed
+    -- `ft_to_lang` and errors in the file preview
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
