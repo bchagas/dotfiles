@@ -18,10 +18,16 @@ else
 fi
 autoload -Uz +X bashcompinit && bashcompinit
 
-# Order matters: PATH first, then language managers, work setup, aliases
-for module in path languages work aliases; do
+# Order matters: PATH first, then work setup, aliases. Language managers come
+# LAST, at the bottom of this file — nvm and rbenv prepend their own directories
+# to PATH, and anything that touches PATH after them wins.
+for module in path work aliases; do
   source "$ZDOTFILES/conf.d/$module.zsh"
 done
+
+# Not in the loop above: secrets.zsh is git-ignored, so it may not exist on a
+# fresh clone and sourcing it unconditionally would break the shell.
+[ -r "$ZDOTFILES/conf.d/secrets.zsh" ] && source "$ZDOTFILES/conf.d/secrets.zsh"
 unset module
 
 [[ ! -r $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme ]] || source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -36,3 +42,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Machine-local config and secrets (not versioned)
 [[ ! -f ~/.zshrc.local ]] || source ~/.zshrc.local
+
+# dotfiles scripts
+path_prepend "$HOME/Documents/dotfiles/bin"
+
+# Language managers last: nothing may reorder PATH after nvm/rbenv have set it.
+source "$ZDOTFILES/conf.d/languages.zsh"

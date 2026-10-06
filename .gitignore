@@ -1,3 +1,4 @@
 *.swp
 .DS_Store
 Claude outputs/
+zsh/conf.d/secrets.zsh
