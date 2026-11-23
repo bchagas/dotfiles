@@ -15,6 +15,8 @@
   l = log --graph
   who = shortlog -s --
   commits = log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
+  watch = !gh run watch $(gh run list --branch main --limit 1 --json databaseId -q '.[0].databaseId') --exit-status
+  pm = !gh pr merge --merge
 [core]
 	editor = nvim
   autocrlf = input
