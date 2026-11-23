@@ -26,6 +26,7 @@ export GOPATH="$HOME/go"
 export PNPM_HOME="$HOME/Library/pnpm"
 
 path_prepend "$GOPATH/bin"
+path_prepend "$HOME/.cargo/bin"
 path_prepend "$PNPM_HOME"
 path_prepend "$HOMEBREW_PREFIX/sbin"
 path_prepend "$HOMEBREW_PREFIX/bin"
@@ -40,6 +41,9 @@ export GPG_TTY=$(tty)
 # which floods the terminal and puts secret names on screen. Empty = no log,
 # loading itself is untouched.
 export DIRENV_LOG_FORMAT=
+
+# Scripts kept in this repo
+path_prepend "${ZDOTFILES:h}/bin"
 
 # ds-scripts
 path_prepend "$HOME/dev/ds-scripts"
