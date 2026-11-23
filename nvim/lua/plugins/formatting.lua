@@ -17,6 +17,7 @@ return {
           jsonc           = { "prettier" },
           css             = { "prettier" },
           html            = { "prettier" },
+          svelte          = { "prettier" },
           markdown        = { "prettier" },
           yaml            = { "prettier" },
         },

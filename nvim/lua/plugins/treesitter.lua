@@ -9,6 +9,7 @@ local parsers = {
   "json", -- also used for jsonc
   "css",
   "html",
+  "svelte",
   "markdown",
   "markdown_inline",
   "lua",

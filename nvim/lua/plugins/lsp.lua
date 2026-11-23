@@ -21,6 +21,7 @@ return {
         "jsonls",   -- JSON
         "html",     -- HTML
         "cssls",    -- CSS
+        "svelte",   -- Svelte
         "lua_ls",   -- Lua (editing this config)
       },
     },
