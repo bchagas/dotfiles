@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Cross New Relic notification channels against the workflows that use them.
+
+The New Relic UI only shows a channel from inside the workflow that references it, so a
+channel left behind by a deleted workflow has no screen anywhere. This lists every
+channel, flags the ones nothing points at, and flags workflows whose alert policy no
+longer exists.
+
+Usage:  NEW_RELIC_API_KEY=... newrelic-orphan-channels [account_id]
+        (the account id falls back to $NEW_RELIC_ACCOUNT_ID)
+"""
+import collections
+import json
+import os
+import subprocess
+import sys
+
+ACCOUNT = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("NEW_RELIC_ACCOUNT_ID")
+if not ACCOUNT:
+    sys.exit("usage: newrelic-orphan-channels <account_id> (or set NEW_RELIC_ACCOUNT_ID)")
+if not ACCOUNT.isdigit():
+    sys.exit(f"account id must be numeric, got {ACCOUNT!r}")
+KEY = os.environ.get("NEW_RELIC_API_KEY")
+if not KEY:
+    sys.exit("NEW_RELIC_API_KEY is not set")
+
+QUERY = """
+{ actor { account(id: %s) {
+  alerts { policiesSearch { policies { id name } } }
+  aiWorkflows { workflows { entities {
+    name workflowEnabled
+    issuesFilter { predicates { attribute values } }
+    destinationConfigurations { channelId }
+  } } }
+  aiNotifications {
+    channels     { entities { id name type status destinationId } }
+    destinations { entities { id name type } }
+  }
+} } }
+""" % ACCOUNT
+
+
+def fetch():
+    out = subprocess.run(
+        ["curl", "-s", "https://api.newrelic.com/graphql",
+         "-H", "Content-Type: application/json", "-H", f"API-Key: {KEY}",
+         "-d", json.dumps({"query": QUERY})],
+        capture_output=True, text=True).stdout
+    data = json.loads(out)
+    if data.get("errors"):
+        sys.exit("NerdGraph: " + json.dumps(data["errors"])[:400])
+    return data["data"]["actor"]["account"]
+
+
+def main():
+    a = fetch()
+    policies = {p["id"]: p["name"] for p in a["alerts"]["policiesSearch"]["policies"]}
+    channels = {c["id"]: c for c in a["aiNotifications"]["channels"]["entities"]}
+    dests = {d["id"]: d for d in a["aiNotifications"]["destinations"]["entities"]}
+    workflows = a["aiWorkflows"]["workflows"]["entities"]
+
+    used = collections.defaultdict(list)   # channel id -> [(workflow name, policy alive)]
+    dead_workflows = []
+    for w in workflows:
+        pids = {v for p in (w["issuesFilter"]["predicates"] or [])
+                if p["attribute"] == "labels.policyIds" for v in p["values"]}
+        alive = bool(pids & set(policies))
+        if not alive:
+            dead_workflows.append((w["name"], sorted(pids)))
+        for dc in w["destinationConfigurations"]:
+            used[dc["channelId"]].append((w["name"], alive))
+
+    def dest_of(c):
+        d = dests.get(c["destinationId"])
+        return d["name"] if d else f"destination {c['destinationId'][:8]} NOT FOUND"
+
+    orphans   = [c for c in channels.values() if not used[c["id"]]]
+    only_dead = [c for c in channels.values()
+                 if used[c["id"]] and not any(ok for _, ok in used[c["id"]])]
+    broken    = [c for c in channels.values() if c["status"] != "DEFAULT"]
+
+    print(f"{len(channels)} channels, {len(workflows)} workflows, {len(policies)} policies\n")
+
+    def section(title, items, note):
+        print(f"== {title}: {len(items)} ==")
+        if not items:
+            print("   none\n"); return
+        print(f"   {note}")
+        for c in sorted(items, key=lambda x: x["name"]):
+            print(f"   {c['id'][:8]}  {c['type']:11s} {c['name'][:34]:34s} -> {dest_of(c)}")
+            for wf, ok in used[c["id"]]:
+                print(f"             workflow {'alive' if ok else 'dead '}: {wf}")
+        print()
+
+    section("Channels no workflow uses", orphans,
+            "invisible in the UI: no screen shows them")
+    section("Channels used only by dead workflows", only_dead,
+            "the workflow exists but filters on a missing policy, so it never fires")
+    section("Channels in error", broken,
+            "status other than DEFAULT: deliveries are failing")
+
+    print(f"== Workflows whose policy no longer exists: {len(dead_workflows)} ==")
+    for name, pids in sorted(dead_workflows) or [("none", [])]:
+        print(f"   {name}  -> policyIds {pids or '(no policy filter)'}")
+
+
+if __name__ == "__main__":
+    main()
