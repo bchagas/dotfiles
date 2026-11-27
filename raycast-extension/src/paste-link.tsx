@@ -1,7 +1,17 @@
-import { Action, ActionPanel, Clipboard, Form, Icon, showHUD, showToast, Toast } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Clipboard,
+  Form,
+  getPreferenceValues,
+  Icon,
+  showHUD,
+  showToast,
+  Toast,
+} from "@raycast/api";
 import { useEffect, useState } from "react";
 import { discordSelection, pasteInDiscord } from "./discord";
-import { cleanUrl, countUrls, formatContent, fromSelection, siteName } from "./format";
+import { cleanUrl, countUrls, formatContent, fromSelection, lengthWarning, siteName } from "./format";
 
 // The clipboard as the URL field starts: one URL alone, or text holding several
 function initialUrls(clip: string | undefined): string {
@@ -27,9 +37,11 @@ export default function Command() {
     })().finally(() => setLoading(false));
   }, []);
 
+  const { untrack } = getPreferenceValues<Preferences>();
   const many = countUrls(url) > 1;
   // A list has no text field, so each of its links is named after its site
-  const link = formatContent(text, url, many);
+  const link = formatContent(text, url, { named: many, untrack });
+  const tooLong = link && lengthWarning(link);
 
   async function paste() {
     if (!link) {
@@ -62,7 +74,7 @@ export default function Command() {
     >
       {/* A text applies to a single link only, so with a list the field is not shown */}
       {many ? (
-        <Form.Description text={`${countUrls(url)} links: each one becomes [Site](<url>)`} />
+        <Form.Description text={`${countUrls(url)} links: each one becomes [site](<url>)`} />
       ) : (
         <Form.TextField
           id="text"
@@ -77,7 +89,7 @@ export default function Command() {
         id="url"
         title="URL"
         placeholder="https://… (one link, or a list)"
-        info="Filled in from the clipboard. With several links, each one is wrapped in <>"
+        info="Filled in from the clipboard. With several links, each one becomes [site](<url>)"
         value={url}
         error={urlError}
         onChange={(value) => {
@@ -86,6 +98,7 @@ export default function Command() {
         }}
       />
       <Form.Description title="Result" text={link ?? "No valid URL yet"} />
+      {tooLong && <Form.Description title="⚠️ Too long" text={tooLong} />}
     </Form>
   );
 }
