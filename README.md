@@ -15,7 +15,7 @@ ssh/config            Includes only                          -> ~/.ssh/config
 vim/vimrc                                                    -> ~/.vimrc
 nvim/                                                        -> ~/.config/nvim
 emacs/spacemacs                                              -> ~/.spacemacs
-raycast/              Raycast script commands (added by hand, see New Mac)
+raycast-extension/    Raycast extension: paste links into Discord without embeds (see New Mac)
 ```
 
 Machine-local files, **never versioned** (install.sh creates them empty, mode 600):
@@ -58,9 +58,9 @@ Machine-local files, **never versioned** (install.sh creates them empty, mode 60
 4. In the terminal app, select the **Meslo LG M for Powerline** font (the Brewfile
    installs it).
 
-5. In Raycast, open the Script Commands settings, add `raycast/` from this repo under
-   Script Folders, and give Paste Link Without Embed a hotkey (⌃⌥V). The first paste
-   asks to let Raycast control System Events.
+5. Load the Raycast extension once (it stays in Raycast after the command stops):
+   `cd raycast-extension && npm install && npm run dev`. Then give its commands a
+   hotkey: Paste Clipboard Without Embed ⌃⌥V, Paste Link Without Embed ⌃⌥⇧V.
 
 6. Only if needed: sdkman (Java), Node (`nvm install`) and Ruby (`rbenv install`)
    versions, Flutter and the Android SDK (used by `zsh/conf.d/work.zsh`).
