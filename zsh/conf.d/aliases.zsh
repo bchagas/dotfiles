@@ -13,6 +13,9 @@ alias top="top -o rsize"
 alias make="make -j 2"
 alias workspace="cd $HOME/dev"
 alias dotfiles="cd ${ZDOTFILES:h}"
+# Reload the shell config: replace the current shell with a fresh one (like `omz reload`),
+# which avoids the duplicates and leftovers of re-sourcing ~/.zshrc
+alias reload="exec zsh"
 alias dnsFlush="sudo killall -HUP mDNSResponder"
 # Lock the screen right away, like Raycast's Lock Screen (private login.framework call;
 # `pmset displaysleepnow` only locks after the "require password" delay)
