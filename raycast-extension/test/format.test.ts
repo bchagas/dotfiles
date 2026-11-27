@@ -7,7 +7,9 @@ import {
   formatLink,
   fromSelection,
   isUrl,
+  lengthWarning,
   siteName,
+  stripTracking,
   wrapUrls,
 } from "../src/format.ts";
 
@@ -126,33 +128,65 @@ test("siteName is the domain before its suffix, in lowercase", () => {
 });
 
 test("named: a single link gets the site name unless a text is given", () => {
-  assert.equal(formatContent("", KABUM, true), `[kabum](<${KABUM}>)`);
-  assert.equal(formatContent("Placa", KABUM, true), `[Placa](<${KABUM}>)`);
+  assert.equal(formatContent("", KABUM, { named: true }), `[kabum](<${KABUM}>)`);
+  assert.equal(formatContent("Placa", KABUM, { named: true }), `[Placa](<${KABUM}>)`);
   assert.equal(formatContent("", KABUM), `<${KABUM}>`);
 });
 
 test("named: every bare link of a list gets its site name", () => {
   assert.equal(
-    formatContent("", `${KABUM}\n\nlook https://dexscreener.com/x.`, true),
+    formatContent("", `${KABUM}\n\nlook https://dexscreener.com/x.`, { named: true }),
     `[kabum](<${KABUM}>)\n\nlook [dexscreener](<https://dexscreener.com/x>).`,
   );
 });
 
 test("named: links already masked or wrapped keep their form", () => {
-  assert.equal(wrapUrls("[a](https://a.com) <https://b.com>", true), "[a](<https://a.com>) <https://b.com>");
+  assert.equal(wrapUrls("[a](https://a.com) <https://b.com>", { named: true }), "[a](<https://a.com>) <https://b.com>");
 });
 
 test("named: repeated site names are numbered, unique ones are not", () => {
   const list = `${KABUM}\n\nhttps://dexscreener.com/x\n\n${KABUM}/2\n${KABUM}/3`;
   assert.equal(
-    wrapUrls(list, true),
+    wrapUrls(list, { named: true }),
     `[kabum 1](<${KABUM}>)\n\n[dexscreener](<https://dexscreener.com/x>)\n\n[kabum 2](<${KABUM}/2>)\n[kabum 3](<${KABUM}/3>)`,
   );
 });
 
 test("named: masked and wrapped links do not count toward the numbering", () => {
   assert.equal(
-    wrapUrls(`[a](${KABUM}) <${KABUM}> ${KABUM}`, true),
+    wrapUrls(`[a](${KABUM}) <${KABUM}> ${KABUM}`, { named: true }),
     `[a](<${KABUM}>) <${KABUM}> [kabum](<${KABUM}>)`,
   );
+});
+
+test("formatting characters in the text are escaped so Discord shows them as typed", () => {
+  assert.equal(formatLink("meu_projeto", KABUM), `[meu\\_projeto](<${KABUM}>)`);
+  assert.equal(
+    formatLink("**promo** ~x~ `c` ||s||", KABUM),
+    "[\\*\\*promo\\*\\* \\~x\\~ \\`c\\` \\|\\|s\\|\\|](<" + KABUM + ">)",
+  );
+  assert.equal(formatLink("a\\b", KABUM), `[a\\\\b](<${KABUM}>)`);
+});
+
+test("stripTracking drops tracking parameters and keeps the rest as written", () => {
+  assert.equal(stripTracking("https://a.com/x?utm_source=tw&id=5&fbclid=abc#top"), "https://a.com/x?id=5#top");
+  assert.equal(stripTracking("https://a.com/x?utm_source=tw&UTM_MEDIUM=y"), "https://a.com/x");
+  assert.equal(stripTracking("https://a.com/x?gclid=1#frag"), "https://a.com/x#frag");
+  assert.equal(stripTracking("https://a.com/?q=a%20b&utm_medium=x"), "https://a.com/?q=a%20b");
+  assert.equal(stripTracking("https://a.com/x?ref=home&page=2"), "https://a.com/x?ref=home&page=2");
+  assert.equal(stripTracking("https://a.com/x"), "https://a.com/x");
+});
+
+test("untrack applies to a single link and to every link of a list", () => {
+  assert.equal(formatContent("", `${KABUM}?utm_source=x`, { named: true, untrack: true }), `[kabum](<${KABUM}>)`);
+  assert.equal(formatContent("", `${KABUM}?utm_source=x`), `<${KABUM}?utm_source=x>`);
+  assert.equal(
+    formatContent("", `${KABUM}?fbclid=1\n[a](https://b.com/?gclid=2)`, { untrack: true }),
+    `<${KABUM}>\n[a](<https://b.com/>)`,
+  );
+});
+
+test("lengthWarning flags content over Discord's 2000 characters", () => {
+  assert.equal(lengthWarning("a".repeat(2000)), undefined);
+  assert.equal(lengthWarning("a".repeat(2345)), "2345 characters: over Discord's 2000 limit (4000 with Nitro)");
 });
