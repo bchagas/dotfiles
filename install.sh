@@ -70,7 +70,7 @@ link emacs/spacemacs "$HOME/.spacemacs"
 for legacy in "$HOME/.gitconfig" "$HOME/.gitignore"; do
   if points_to_repo "$legacy"; then
     rm "$legacy"
-    echo "  remove  $legacy (link antigo)"
+    echo "  remove  $legacy (old link)"
   fi
 done
 if [ -e "$HOME/.gitconfig" ]; then
@@ -141,5 +141,5 @@ defaults write -g PMPrintingExpandedStateForPrint -bool TRUE
 
 if [ "$BACKED_UP" = 1 ]; then echo "Backups in $BACKUP"; fi
 if [ -n "$WARNINGS" ]; then printf 'Warnings:\n%s' "$WARNINGS"; fi
-echo 'Done. Open a new terminal (or run: exec zsh)'
+echo 'Done. Open a new terminal tab (or run: reload)'
 echo 'Manual steps (SSH/GPG keys, secrets, logins): see README.md'
