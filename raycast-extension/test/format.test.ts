@@ -7,7 +7,9 @@ import {
   formatLink,
   fromSelection,
   isUrl,
+  lengthWarning,
   siteName,
+  stripTracking,
   wrapUrls,
 } from "../src/format.ts";
 
@@ -126,33 +128,65 @@ test("siteName is the domain before its suffix, in lowercase", () => {
 });
 
 test("named: a single link gets the site name unless a text is given", () => {
-  assert.equal(formatContent("", BCHAGAS, true), `[bchagas](<${BCHAGAS}>)`);
-  assert.equal(formatContent("Dotfiles", BCHAGAS, true), `[Dotfiles](<${BCHAGAS}>)`);
+  assert.equal(formatContent("", BCHAGAS, { named: true }), `[bchagas](<${BCHAGAS}>)`);
+  assert.equal(formatContent("Dotfiles", BCHAGAS, { named: true }), `[Dotfiles](<${BCHAGAS}>)`);
   assert.equal(formatContent("", BCHAGAS), `<${BCHAGAS}>`);
 });
 
 test("named: every bare link of a list gets its site name", () => {
   assert.equal(
-    formatContent("", `${BCHAGAS}\n\nlook https://github.com/bchagas.`, true),
+    formatContent("", `${BCHAGAS}\n\nlook https://github.com/bchagas.`, { named: true }),
     `[bchagas](<${BCHAGAS}>)\n\nlook [github](<https://github.com/bchagas>).`,
   );
 });
 
 test("named: links already masked or wrapped keep their form", () => {
-  assert.equal(wrapUrls("[a](https://a.com) <https://b.com>", true), "[a](<https://a.com>) <https://b.com>");
+  assert.equal(wrapUrls("[a](https://a.com) <https://b.com>", { named: true }), "[a](<https://a.com>) <https://b.com>");
 });
 
 test("named: repeated site names are numbered, unique ones are not", () => {
   const list = `${BCHAGAS}\n\nhttps://github.com/bchagas\n\n${BCHAGAS}/2\n${BCHAGAS}/3`;
   assert.equal(
-    wrapUrls(list, true),
+    wrapUrls(list, { named: true }),
     `[bchagas 1](<${BCHAGAS}>)\n\n[github](<https://github.com/bchagas>)\n\n[bchagas 2](<${BCHAGAS}/2>)\n[bchagas 3](<${BCHAGAS}/3>)`,
   );
 });
 
 test("named: masked and wrapped links do not count toward the numbering", () => {
   assert.equal(
-    wrapUrls(`[a](${BCHAGAS}) <${BCHAGAS}> ${BCHAGAS}`, true),
+    wrapUrls(`[a](${BCHAGAS}) <${BCHAGAS}> ${BCHAGAS}`, { named: true }),
     `[a](<${BCHAGAS}>) <${BCHAGAS}> [bchagas](<${BCHAGAS}>)`,
   );
+});
+
+test("formatting characters in the text are escaped so Discord shows them as typed", () => {
+  assert.equal(formatLink("meu_projeto", BCHAGAS), `[meu\\_projeto](<${BCHAGAS}>)`);
+  assert.equal(
+    formatLink("**promo** ~x~ `c` ||s||", BCHAGAS),
+    "[\\*\\*promo\\*\\* \\~x\\~ \\`c\\` \\|\\|s\\|\\|](<" + BCHAGAS + ">)",
+  );
+  assert.equal(formatLink("a\\b", BCHAGAS), `[a\\\\b](<${BCHAGAS}>)`);
+});
+
+test("stripTracking drops tracking parameters and keeps the rest as written", () => {
+  assert.equal(stripTracking("https://a.com/x?utm_source=tw&id=5&fbclid=abc#top"), "https://a.com/x?id=5#top");
+  assert.equal(stripTracking("https://a.com/x?utm_source=tw&UTM_MEDIUM=y"), "https://a.com/x");
+  assert.equal(stripTracking("https://a.com/x?gclid=1#frag"), "https://a.com/x#frag");
+  assert.equal(stripTracking("https://a.com/?q=a%20b&utm_medium=x"), "https://a.com/?q=a%20b");
+  assert.equal(stripTracking("https://a.com/x?ref=home&page=2"), "https://a.com/x?ref=home&page=2");
+  assert.equal(stripTracking("https://a.com/x"), "https://a.com/x");
+});
+
+test("untrack applies to a single link and to every link of a list", () => {
+  assert.equal(formatContent("", `${BCHAGAS}?utm_source=x`, { named: true, untrack: true }), `[bchagas](<${BCHAGAS}>)`);
+  assert.equal(formatContent("", `${BCHAGAS}?utm_source=x`), `<${BCHAGAS}?utm_source=x>`);
+  assert.equal(
+    formatContent("", `${BCHAGAS}?fbclid=1\n[a](https://b.com/?gclid=2)`, { untrack: true }),
+    `<${BCHAGAS}>\n[a](<https://b.com/>)`,
+  );
+});
+
+test("lengthWarning flags content over Discord's 2000 characters", () => {
+  assert.equal(lengthWarning("a".repeat(2000)), undefined);
+  assert.equal(lengthWarning("a".repeat(2345)), "2345 characters: over Discord's 2000 limit (4000 with Nitro)");
 });

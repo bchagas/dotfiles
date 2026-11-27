@@ -35,6 +35,45 @@ export function countUrls(content: string): number {
   return content.match(URL_IN_TEXT)?.length ?? 0;
 }
 
+export type FormatOptions = {
+  // A link with no text is named after its site: [bchagas](<url>)
+  named?: boolean;
+  // Tracking parameters (utm_*, fbclid…) are dropped from every link
+  untrack?: boolean;
+};
+
+const TRACKING =
+  /^(utm_.+|fbclid|gclid|gclsrc|gbraid|wbraid|dclid|msclkid|mc_cid|mc_eid|igshid|igsh|yclid|twclid|ttclid|_hsenc|_hsmi|mkt_tok)$/i;
+
+// Drops tracking parameters and keeps everything else exactly as written: rebuilding
+// the URL with new URL() would re-encode parts of it
+export function stripTracking(url: string): string {
+  const hash = url.indexOf("#");
+  const fragment = hash < 0 ? "" : url.slice(hash);
+  const beforeHash = hash < 0 ? url : url.slice(0, hash);
+  const q = beforeHash.indexOf("?");
+  if (q < 0) return url;
+  const kept = beforeHash
+    .slice(q + 1)
+    .split("&")
+    .filter((param) => param && !TRACKING.test(param.split("=")[0]));
+  return beforeHash.slice(0, q) + (kept.length ? `?${kept.join("&")}` : "") + fragment;
+}
+
+// Backslashes Discord's formatting characters so the text shows as typed: brackets
+// would end the masked link early, the rest would turn into bold, spoilers and so on
+function escapeText(text: string): string {
+  return text.replace(/[\\[\]*_~`|]/g, "\\$&");
+}
+
+const DISCORD_LIMIT = 2000;
+
+// A message over Discord's limit cannot be sent (Nitro raises it to 4000)
+export function lengthWarning(content: string): string | undefined {
+  if (content.length <= DISCORD_LIMIT) return undefined;
+  return `${content.length} characters: over Discord's ${DISCORD_LIMIT} limit (4000 with Nitro)`;
+}
+
 // Second-level suffixes where the site name is one label further left: exemplo.com.br
 const SECOND_LEVEL = /^(com|net|org|gov|edu|co|ac|ne|or|go)$/;
 
@@ -59,13 +98,14 @@ export function siteName(url: string): string {
 // A URL right after "<" is already wrapped; [text](url) becomes [text](<url>).
 // named: a bare URL becomes [site](<url>) instead of <url>, and a site name that
 // repeats is numbered (bchagas 1, bchagas 2) so the links can be told apart.
-export function wrapUrls(content: string, named = false): string {
+export function wrapUrls(content: string, { named = false, untrack = false }: FormatOptions = {}): string {
   const found = [...content.matchAll(URL_IN_TEXT)].map((m) => {
-    const url = trimUrl(m[0]);
+    const trimmed = trimUrl(m[0]);
+    const url = untrack ? stripTracking(trimmed) : trimmed;
     const offset = m.index;
     const wrapped = content[offset - 1] === "<";
     const masked = content.slice(offset - 2, offset) === "](";
-    return { url, rest: m[0].slice(url.length), wrapped, name: named && !wrapped && !masked ? siteName(url) : "" };
+    return { url, rest: m[0].slice(trimmed.length), wrapped, name: named && !wrapped && !masked ? siteName(url) : "" };
   });
 
   const total = new Map<string, number>();
@@ -80,18 +120,23 @@ export function wrapUrls(content: string, named = false): string {
     const n = (seen.get(name) ?? 0) + 1;
     seen.set(name, n);
     const label = total.get(name)! > 1 ? `${name} ${n}` : name;
-    return `[${label}](<${url}>)${rest}`;
+    return `[${escapeText(label)}](<${url}>)${rest}`;
   });
 }
 
 // What gets pasted: the text applies to a single URL; content with several URLs (a
 // list of links, a message) has each one wrapped and the text ignored.
-// named: a link with no text is named after its site.
-export function formatContent(text: string, content: string, named = false): string | undefined {
-  const single = cleanUrl(content);
-  if (single) return formatLink(text || (named ? siteName(single) : ""), single);
-  if (!content.trim()) return formatLink(text, "");
-  return countUrls(content) ? wrapUrls(content.trim(), named) : undefined;
+export function formatContent(text: string, content: string, options: FormatOptions = {}): string | undefined {
+  let single = cleanUrl(content);
+  if (single) {
+    if (options.untrack) single = stripTracking(single);
+    return formatLink(text || (options.named ? siteName(single) : ""), single);
+  }
+  if (!content.trim()) {
+    const typed = text.trim();
+    return formatLink("", options.untrack && isUrl(typed) ? stripTracking(typed) : typed);
+  }
+  return countUrls(content) ? wrapUrls(content.trim(), options) : undefined;
 }
 
 // undefined when there is no valid URL. A URL typed as the text, with no URL given,
@@ -105,8 +150,7 @@ export function formatLink(text: string, url: string): string | undefined {
   }
   if (!isUrl(link)) return undefined;
   if (!label) return `<${link}>`;
-  // Brackets in the text would end the masked link early
-  return `[${label.replace(/[[\]]/g, "\\$&")}](<${link}>)`;
+  return `[${escapeText(label)}](<${link}>)`;
 }
 
 // Text selected in Discord: words become the link text; a selection holding links is
